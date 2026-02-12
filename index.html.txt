@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title> Zdeníčku, budeš můj Valentýn?</title>
+<style>
+    body {
+        text-align: center;
+        font-family: Arial, sans-serif;
+        background-color: #ffe6f0;
+        overflow: hidden;
+    }
+
+    #catContainer img {
+        width: 250px;
+        border-radius: 15px;
+        margin: 10px;
+        transition: 0.3s;
+    }
+
+    h1 {
+        color: #d63384;
+    }
+
+    button {
+        font-size: 18px;
+        padding: 10px 20px;
+        margin: 10px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+        position: relative;
+    }
+
+    #yes {
+        background-color: #ff4d6d;
+        color: white;
+    }
+
+    #no {
+        background-color: #999;
+        color: white;
+    }
+
+    .hearts {
+        position: fixed;
+        font-size: 30px;
+        animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+        0% { top: -10%; }
+        100% { top: 110%; }
+    }
+</style>
+</head>
+<body>
+
+<h1 id="question">Zdeníčku, budeš můj Valentýn? ❤️</h1>
+
+<div id="catContainer">
+    <img id="catImage" src="cat1.gif" alt="Kočička">
+</div>
+
+<div id="buttons">
+    <button id="yes" onclick="yesClick()">ANO 💖</button>
+    <button id="no" onclick="noClick()">NE 😢</button>
+</div>
+
+<script>
+let noClicks = 0;
+let yesSize = 18;
+let escapeMode = false;
+
+let images = [
+    "cat1.gif",
+    "cat2.gif",
+    "cat3.gif",
+    "cat4.gif",
+    "cat5.gif",
+    "cat6.gif",
+    "cat7.gif",
+    "cat8.gif",
+    "cat9.gif"
+];
+
+let texts = [
+    "To myslíš vážně? 😢",
+    "Prosím... 🥺",
+    "Kočička je smutná 😿",
+    "Opravdu ne? 💔",
+    "Zlomíš jí srdce 😭",
+    "Podívej se na ni 🥹",
+    "Tohle je poslední šance 😰",
+    "Už skoro pláče 😭"
+];
+
+function yesClick() {
+    document.getElementById("question").innerHTML = "JEEEE ❤️ Krásný Valentýn!";
+    
+    // Vyčistí původní obsah
+    document.getElementById("catContainer").innerHTML = `
+        <img src="happy1.gif">
+        <img src="happy2.gif">
+    `;
+
+    document.getElementById("buttons").style.display = "none";
+
+    createHearts();
+}
+
+function noClick() {
+    if (noClicks < 8) {
+        noClicks++;
+        document.getElementById("catImage").src = images[noClicks];
+        document.getElementById("question").innerHTML = texts[noClicks - 1];
+
+        yesSize += 5;
+        document.getElementById("yes").style.fontSize = yesSize + "px";
+    }
+
+    if (noClicks === 8) {
+        escapeMode = true;
+    }
+}
+
+document.getElementById("no").addEventListener("mouseover", function() {
+    if (escapeMode) {
+        let x = Math.random() * (window.innerWidth - 100);
+        let y = Math.random() * (window.innerHeight - 50);
+
+        this.style.position = "absolute";
+        this.style.left = x + "px";
+        this.style.top = y + "px";
+    }
+});
+
+// padající srdíčka 💕
+function createHearts() {
+    setInterval(() => {
+        let heart = document.createElement("div");
+        heart.classList.add("hearts");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.innerHTML = "💖";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 3000);
+    }, 300);
+}
+</script>
+
+</body>
+</html>
